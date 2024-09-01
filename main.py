@@ -20,5 +20,7 @@ if __name__ == '__main__':
     # outputs
     print(mon)
     # print(mon.types)
-    print(dir(mon))
-    print(mon.abilities[0].keys())
+    # print(dir(mon))
+    # print(mon.abilities[0].keys())
+    # print(mon.abilities)
+    # print(mon.valid_moves)

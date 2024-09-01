@@ -48,19 +48,46 @@ def processAbilities(a):
     return abilities
 
 def processMoves(moves):
+    def handleMoveInfo(move_url):
+        try:
+            move_info = requests.get(move_url).json()
+
+            accuracy = move_info['accuracy']
+            damage_class = move_info['damage_class']['name']
+            power = move_info['power']
+            pp = move_info['pp']
+            priority = move_info['priority']
+            type = move_info['type']['name']
+
+            return accuracy, damage_class, power, pp, priority, type
+        except Exception as e:
+            print(f"Error fetching move info: {e}")
+            move_info = {}
+
     try:
-        scarlet_violet_moves = []
+        sv_moves = []
         for m in moves:
-            move = {
-                "move": {},
-                "version_group_details": {}
-            }
+            move = {}
             for version in m['version_group_details']:
-                if version['version_group']['name'] == 'scarlet-violet':
-                    move["move"] = m['move']
-                    move["version_group_details"] = version
-                    scarlet_violet_moves.append(move)
-        return scarlet_violet_moves
+                if version['version_group']['name'] != 'scarlet-violet':
+                    continue
+
+                move['name'] = m['move']['name']
+                move['level_learned_at'] = version['level_learned_at']
+                move['learn_method'] = version['move_learn_method']['name']
+                move['version'] = version['version_group']['name']
+
+                # use the url to get the move info
+                accuracy, damage_class, power, pp, priority, type = handleMoveInfo(m['move']['url'])
+                move['accuracy'] = accuracy
+                move['damage_class'] = damage_class
+                move['power'] = power
+                move['pp'] = pp
+                move['priority'] = priority
+                move['type'] = type
+
+                sv_moves.append(move)
+        return sv_moves
     except Exception as e:
         print(f"Error processing moves: {e}")
         return []
