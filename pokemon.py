@@ -1,7 +1,7 @@
 import requests
 
 from utils.api_utils import *
-from utils.stat_utils import *
+from utils.stat_utils import calculate_stats
 
 
 class Pokemon:
@@ -115,7 +115,7 @@ def getPokemon(
         evs (dict): The EVs of the pokemon
         ivs (dict): The IVs of the pokemon
     """
-    
+
     try:
         return Pokemon(name, nature, level, evs, ivs)
     except ValueError as e:
