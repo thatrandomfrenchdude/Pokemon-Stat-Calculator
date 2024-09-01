@@ -18,7 +18,7 @@ if __name__ == '__main__':
     mon = getPokemon(name, nature, level, evs, ivs)
 
     # outputs
-    # print(mon)
+    print(mon)
     # print(mon.types)
     # print(dir(mon))
     # print(mon.abilities[0].keys())

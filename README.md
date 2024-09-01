@@ -33,3 +33,7 @@ Run using pytest:
 ```
 pytest test.py
 ```
+
+## Notes
+Please be aware that not all pokemon are working yet as I continue to build this.<br>
+For example, regional variants are not supported and I have not added error catching for all cases.
