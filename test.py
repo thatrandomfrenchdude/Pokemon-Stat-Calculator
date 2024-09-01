@@ -1,8 +1,9 @@
 from pokemon import Pokemon
-from calculations import calculate_stats
 
 def test_pokemon():
-    p = Pokemon("moltres", "timid", 100)
+    evs = {'hp': 0, 'attack': 0, 'defense': 0, 'special-attack': 0, 'special-defense': 0, 'speed': 0}
+    ivs = {'hp': 0, 'attack': 0, 'defense': 0, 'special-attack': 0, 'special-defense': 0, 'speed': 0}
+    p = Pokemon("moltres", "timid", 100, evs, ivs)
     assert p.name == "moltres"
     assert p.nature == "timid"
     assert p.level == 100
@@ -20,11 +21,10 @@ def test_pokemon():
     }
 
 def test_calculate_stats():
-    p = Pokemon("moltres", "timid", 100)
     evs = {'hp': 252, 'attack': 0, 'defense': 0, 'special-attack': 252, 'special-defense': 0, 'speed': 4}
     ivs = {'hp': 31, 'attack': 31, 'defense': 31, 'special-attack': 31, 'special-defense': 31, 'speed': 31}
-    stats = calculate_stats(p, evs, ivs)
-    assert stats == {
+    p = Pokemon("moltres", "timid", 100, evs, ivs)
+    assert p.stats == {
         'hp': 384,
         'attack': 212,
         'defense': 216,

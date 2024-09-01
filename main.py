@@ -1,68 +1,24 @@
-import argparse
-from sys import argv
-
-import calculations
-import pokemon
-
-def main():
-    evs = {}
-    ivs = {}
-
-    # get the pokemon info via command line or input
-    if len(argv) == 2:
-        # get the pokemon's name, nature, and level
-        name = input('Enter Pokémon\'s name: ').lower()
-        nature = input('Enter Pokémon\'s nature: ').lower()
-        level = int(input('Enter Pokémon\'s level: '))
-
-        print('Enter the following stats in order:\nHP, Attack, Defense, Special Attack, Special Defense, and Speed')
-
-        # get the variable stats
-        for pair in zip(
-            calculations.STAT_NAMES,
-            list(map(int, input('Enter the Pokémon\'s EVs (space separated.): ').split())),
-            list(map(int, input('Enter the Pokémon\'s IVs (space separated.): ').split()))
-        ):
-            evs[pair[0]] = pair[1]
-            ivs[pair[0]] = pair[2]
-    else:
-        parser = argparse.ArgumentParser(description="Handle Pokemon from commandline")
-        parser.add_argument('name', metavar="[name]", type=str)
-        parser.add_argument('-ev', '--EVs', metavar='EV', type=int, nargs=6)
-        parser.add_argument('-iv', '--IVs', metavar='IV', type=int, nargs=6)
-        parser.add_argument('-n', '--nature', metavar='nature', type=str, nargs=1)
-        parser.add_argument('-l', '--level', metavar='level', type=int, nargs=1)
-
-        #parses all of the arguments into  a list of their respective types and stores them in args
-        args = parser.parse_args()
-
-        # get the pokemon's name, nature, and level
-        name = str(args.name).lower()
-        nature = ''.join(args.nature)
-        level = args.level[0]
-
-        # get the variable stats
-        for pair in zip(
-            calculations.STAT_NAMES,
-            args.EVs,
-            args.IVs
-        ):
-            evs[pair[0]] = pair[1]
-            ivs[pair[0]] = pair[2]
-
-    # make the pokemon
-    try:
-        mon = pokemon.Pokemon(name, nature, level)
-    except ValueError as e:
-        print(e)
-        exit()
-
-    # calculate the final stats
-    stats = calculations.calculate_stats(mon, evs, ivs)
-
-    print(mon)
-    for stat in stats:
-        print(f"{stat.capitalize()}: {stats[stat]}")
+from pokemon import getPokemon
+from utils.cli_utils import parseInputs
 
 if __name__ == '__main__':
-    main()
+    import pprint
+    
+    # setup pretty printer for use
+    pp = pprint.PrettyPrinter(indent=4)
+    
+    name = 'moltres'
+    nature = 'timid'
+    level = 100
+    evs = {'hp': 252, 'attack': 0, 'defense': 0, 'special-attack': 252, 'special-defense': 0, 'speed': 4}
+    ivs = {'hp': 31, 'attack': 31, 'defense': 31, 'special-attack': 31, 'special-defense': 31, 'speed': 31}
+    # name, nature, level, evs, ivs = parseInputs()
+
+    # get a pokemon
+    mon = getPokemon(name, nature, level, evs, ivs)
+
+    # outputs
+    print(mon)
+    # print(mon.types)
+    print(dir(mon))
+    print(mon.abilities[0].keys())

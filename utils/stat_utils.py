@@ -1,9 +1,4 @@
 import math
-from pokemon import Pokemon
-
-# reference
-# https://bulbapedia.bulbagarden.net/wiki/Stat
-# https://bulbapedia.bulbagarden.net/wiki/Damage
 
 STAT_NAMES = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed']
 
@@ -48,39 +43,35 @@ def calc_stat(
     return math.floor(((2 * base + iv + math.floor(ev/4)) * level)/100) + 5
 
 def calculate_stats(
-    pokemon: Pokemon,
+    name: str,
+    level: int,
+    base_stats: dict,
+    nature_buffs: dict,
     evs: dict,
     ivs: dict
 ) -> dict:
     """
     Calculate the stats of a Pokemon.
-
-    Args:
-        pokemon (Pokemon): The Pokemon object
-        evs (dict): The EVs of the Pokemon
-        ivs (dict): The IVs of the Pokemon
-
-    Returns:
-        dict: The stats of the Pokemon
     """
     stats = {}
 
     # calculate the final stats
     for stat in STAT_NAMES:
+        # handle the special shedninja case
         if stat == "hp":
-            stats['hp'] = 1 if pokemon.name == "shedinja" else calc_hp(pokemon.base_stats['hp'], ivs['hp'], evs['hp'], pokemon.level)
+            stats['hp'] = 1 if name == "shedinja" else calc_hp(base_stats['hp'], ivs['hp'], evs['hp'], level)
         else:
-            stats[stat] = calc_stat(pokemon.base_stats[stat], ivs[stat], evs[stat], pokemon.level)
+            stats[stat] = calc_stat(base_stats[stat], ivs[stat], evs[stat], level)
     
     # handle nature
-    for x in pokemon.nature_buffs:
-        if pokemon.nature_buffs[x] == "null":
+    for x in nature_buffs:
+        if nature_buffs[x] == "null":
             break
         if x == "increased_stat":
-            stats[pokemon.nature_buffs[x]] = int(stats[pokemon.nature_buffs[x]] * 1.1)
+            stats[nature_buffs[x]] = int(stats[nature_buffs[x]] * 1.1)
         if x == "decreased_stat":
-            stats[pokemon.nature_buffs[x]] = int(stats[pokemon.nature_buffs[x]] * 0.9)
-    
+            stats[nature_buffs[x]] = int(stats[nature_buffs[x]] * 0.9)
+
     return stats
 
 def calculate_damage():
