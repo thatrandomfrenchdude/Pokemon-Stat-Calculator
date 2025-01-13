@@ -63,10 +63,10 @@ class Pokemon:
         else:
             self.name = name
             self.base_stats = {x['stat']['name']: x['base_stat'] for x in res['stats']}
-            self.sprites = processSprites(res['sprites'])
-            self.valid_moves = processMoves(res['moves'])
-            self.types = processTypes(res['types'])
-            self.abilities = processAbilities(res['abilities'])
+            # self.sprites = processSprites(res['sprites'])
+            # self.valid_moves = processMoves(res['moves'])
+            # self.types = processTypes(res['types'])
+            # self.abilities = processAbilities(res['abilities'])
 
         # get the nature info
         r = requests.get(nature_base_url + nature).json()
