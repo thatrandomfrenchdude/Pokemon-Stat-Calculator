@@ -1,7 +1,7 @@
 import requests
 
-from utils.api_utils import *
-from utils.stat_utils import calculate_stats
+from src.utils.api_utils import *
+from src.utils.stat_utils import calculate_stats
 
 
 class Pokemon:

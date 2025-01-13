@@ -1,5 +1,5 @@
-from pokemon import getPokemon
-from utils.cli_utils import parseInputs
+from src.pokemon import getPokemon
+from src.utils.cli_utils import parseInputs
 
 if __name__ == '__main__':
     # import pprint

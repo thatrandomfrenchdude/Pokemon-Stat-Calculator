@@ -1,6 +1,6 @@
 import argparse
 from sys import argv
-from utils.stat_utils import STAT_NAMES
+from src.utils.stat_utils import STAT_NAMES
 
 
 def parseInputs():
